@@ -1,42 +1,29 @@
 import Navbar from "../components/NavBar";
 import { Box, useMediaQuery } from "@mui/material";
 import { useSelector } from "react-redux";
-import UserWidget from "../widgets/UserWidget";
 import MyPostWidget from "../widgets/MyPostWidget";
-import FriendListWidget from "../widgets/FriendListWidget";
 const HomePage = () => {
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
-  const { _id, picturePath } = useSelector((state) => state.user);
-  console.log(_id);
+  const { picturePath } = useSelector((state) => state.user);
 
   return (
-    <Box>
+    <Box display="flex" flexDirection="column" alignItems="center">
       <Navbar />
       <Box
-        width="100%"
+        width="80%"
         padding="2rem 6%"
-        display={isNonMobileScreens ? "flex" : "block"}
+        display={isNonMobileScreens ? "block" : "block"}
         gap="0.5rem"
-        justifyContent="space-between"
+        justifyContent={isNonMobileScreens ? "space-between" : "center"}
+        alignItems={isNonMobileScreens ? "flex-start" : "center"}
       >
-        <Box flexBasis={isNonMobileScreens ? "26%" : undefined}>
-          <UserWidget
-            userId={_id}
-            picturePath={picturePath}
-          />
-        </Box>
         <Box
-          flexBasis={isNonMobileScreens ? "42%" : undefined}
+          flexBasis={isNonMobileScreens ? "42%" : "100%"}
           mt={isNonMobileScreens ? undefined : "2rem"}
+          textAlign={isNonMobileScreens ? "left" : "center"}
         >
           <MyPostWidget picturePath={picturePath} />
         </Box>
-        {isNonMobileScreens && (
-          <Box flexBasis="26%">
-            <Box m="2rem 0" />
-            <FriendListWidget userId={_id} />
-          </Box>
-        )}
       </Box>
     </Box>
   );

@@ -17,8 +17,7 @@ import FlexBetween from "./FlexBetween";
 import IconButton from "@mui/material/IconButton";
 import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternateOutlined";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
-
-
+import { v4 as uuidv4 } from 'uuid';
 
 const registerSchema = yup.object().shape({
   firstName: yup.string().required("required"),
@@ -42,7 +41,7 @@ const initialValuesRegister = {
   password: "",
   location: "",
   occupation: "",
-  picture: "",
+  picture: uuidv4(),
 };
 
 const initialValuesLogin = {

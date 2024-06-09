@@ -24,7 +24,6 @@ const UserWidget = ({ userId, picturePath }) => {
   const backendHost = import.meta.env.VITE_BACKEND_HOST;
 
   const getUser = async () => {
-    console.log(`${backendHost}`);
     const response = await fetch(`${backendHost}/users/${userId}`, {
       method: "GET",
       headers: { Authorization: `Bearer ${token}` },

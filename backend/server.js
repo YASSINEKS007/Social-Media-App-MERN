@@ -14,6 +14,7 @@ import { verifyToken } from "./middlewares/auth.js";
 import authRoutes from "./routes/authRoutes.js";
 import postRoutes from "./routes/postsRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
+import chalk from "chalk"; 
 
 /* CONFIGURATIONS */
 const __filename = fileURLToPath(import.meta.url);
@@ -23,7 +24,32 @@ const app = express();
 app.use(express.json());
 app.use(helmet());
 app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
-app.use(morgan("common"));
+
+// Customize morgan token to include color
+morgan.token('coloredstatus', (req, res) => {
+  // get status code
+  const status = res.statusCode;
+
+  // status code coloring
+  const statusColor =
+    status >= 500
+      ? chalk.red(status)
+      : status >= 400
+      ? chalk.yellow(status)
+      : status >= 300
+      ? chalk.cyan(status)
+      : status >= 200
+      ? chalk.green(status)
+      : status;
+
+  return statusColor;
+});
+
+// Custom morgan format with colors
+const morganFormat = chalk.gray(':method') + ' ' + chalk.yellow(':url') + ' ' + ':coloredstatus' + ' ' + chalk.green(':response-time ms') + ' - ' + chalk.blue(':res[content-length]');
+
+app.use(morgan(morganFormat)); 
+
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
@@ -44,9 +70,7 @@ app.post("/auth/register", upload.single("picture"), register);
 app.post("/posts", verifyToken, upload.single("picture"), createPost);
 
 app.use("/auth", authRoutes);
-
 app.use("/users", userRoutes);
-
 app.use("/posts", postRoutes);
 
 /* MONGOOSE SETUP */
@@ -57,8 +81,8 @@ mongoose
   .then(() => {
     // User.insertMany(users);
     // Post.insertMany(posts);
-    app.listen(PORT, () => console.log(`Server listening in port : ${PORT}`));
+    app.listen(PORT, () => console.log(`Server listening in port : ${chalk.blue(PORT)}`)); // Colorize PORT using chalk
   })
   .catch((error) => {
-    console.log(`${error} did not connect`);
+    console.log(`${chalk.red(error)} did not connect`); // Colorize error using chalk
   });

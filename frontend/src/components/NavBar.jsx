@@ -38,7 +38,7 @@ const Navbar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector((state) => state.user);
-  const userId = user.id;
+  const userId = user._id;
   const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
 
   const theme = useTheme();
@@ -49,6 +49,7 @@ const Navbar = () => {
   const alt = theme.palette.background.alt;
 
   const fullName = `${user.firstName} ${user.lastName}`;
+  console.log("user id: ", userId);
   return (
     <FlexBetween
       padding="0.5rem 2%"

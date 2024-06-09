@@ -1,11 +1,9 @@
 import { Box, useMediaQuery } from "@mui/material";
-import UserWidget from "../widgets/UserWidget";
-import { useSelector } from "react-redux";
 import Navbar from "../components/NavBar";
+import Form from "../components/Form";
 
-function ProfilePage() {
+function SettingsPage() {
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
-  const { _id, picturePath } = useSelector((state) => state.user);
   return (
     <Box
       display="flex"
@@ -26,14 +24,11 @@ function ProfilePage() {
           mt={isNonMobileScreens ? undefined : "2rem"}
           textAlign={isNonMobileScreens ? "left" : "center"}
         >
-          <UserWidget
-            userId={_id}
-            picturePath={picturePath}
-          />{" "}
+          <Form />
         </Box>
       </Box>
     </Box>
   );
 }
 
-export default ProfilePage;
+export default SettingsPage;

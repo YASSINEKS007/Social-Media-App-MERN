@@ -29,6 +29,7 @@ const UserWidget = ({ userId, picturePath }) => {
       headers: { Authorization: `Bearer ${token}` },
     });
     const data = await response.json();
+    console.log(data.picturePath);
     setUser(data);
   };
 
@@ -152,7 +153,7 @@ const UserWidget = ({ userId, picturePath }) => {
         >
           <FlexBetween gap="1rem">
             <img
-              src="../assets/twitter.png"
+              src={`${backendHost}/photos/twitter.png`}
               alt="twitter"
             />
             <Box>
@@ -171,7 +172,7 @@ const UserWidget = ({ userId, picturePath }) => {
         <FlexBetween gap="1rem">
           <FlexBetween gap="1rem">
             <img
-              src="../assets/linkedin.png"
+              src={`${backendHost}/photos/linkedin.png`}
               alt="linkedin"
             />
             <Box>

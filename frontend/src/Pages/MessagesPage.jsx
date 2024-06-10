@@ -1,11 +1,33 @@
-import { useSelector } from "react-redux";
+import { Box, useMediaQuery } from "@mui/material";
+import Navbar from "../components/NavBar";
+import Messages from "../components/Messages";
 
 function MessagesPage() {
-  const { _id } = useSelector((state) => state.user);
+  const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
   return (
-    <div>
-      <p>{_id}</p>
-    </div>
+    <Box
+      display="flex"
+      flexDirection="column"
+      alignItems="center"
+    >
+      <Navbar />
+      <Box
+        width="80%"
+        padding="2rem 6%"
+        display={isNonMobileScreens ? "block" : "block"}
+        gap="0.5rem"
+        justifyContent={isNonMobileScreens ? "space-between" : "center"}
+        alignItems={isNonMobileScreens ? "flex-start" : "center"}
+      >
+        <Box
+          flexBasis={isNonMobileScreens ? "42%" : "100%"}
+          mt={isNonMobileScreens ? undefined : "2rem"}
+          textAlign={isNonMobileScreens ? "left" : "center"}
+        >
+          <Messages />
+        </Box>
+      </Box>
+    </Box>
   );
 }
 

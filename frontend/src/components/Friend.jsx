@@ -19,8 +19,8 @@ const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
   const primaryDark = palette.primary.dark;
   const main = palette.neutral.main;
   const medium = palette.neutral.medium;
-
-  const isFriend = friends.find((friend) => friend._id === friendId);
+  console.log(friends);
+  const isFriend = friends.filter((friend) => friend._id === friendId);
   const backendHost = import.meta.env.VITE_BACKEND_HOST;
 
   const patchFriend = async () => {

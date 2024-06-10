@@ -9,6 +9,9 @@ import {
   FormControl,
   useTheme,
   useMediaQuery,
+  ClickAwayListener,
+  Paper,
+  Grid,
 } from "@mui/material";
 import {
   Search,
@@ -40,6 +43,7 @@ const Navbar = () => {
   const user = useSelector((state) => state.user);
   const userId = user._id;
   const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
+  const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
 
   const theme = useTheme();
   const neutralLight = theme.palette.neutral.light;
@@ -49,7 +53,15 @@ const Navbar = () => {
   const alt = theme.palette.background.alt;
 
   const fullName = `${user.firstName} ${user.lastName}`;
-  console.log("user id: ", userId);
+
+  const handleNotificationsToggle = () => {
+    setIsNotificationsOpen(!isNotificationsOpen);
+  };
+
+  const handleClickAway = () => {
+    setIsNotificationsOpen(false);
+  };
+
   return (
     <FlexBetween
       padding="0.5rem 2%"
@@ -71,7 +83,11 @@ const Navbar = () => {
         >
           {import.meta.env.VITE_APP_NAME}
         </Typography>
-        {isNonMobileScreens && (
+      </FlexBetween>
+
+      {/* DESKTOP NAV */}
+      {isNonMobileScreens ? (
+        <FlexBetween gap="2rem">
           <FlexBetween
             backgroundColor={neutralLight}
             borderRadius="9px"
@@ -83,12 +99,34 @@ const Navbar = () => {
               <Search />
             </IconButton>
           </FlexBetween>
-        )}
-      </FlexBetween>
-
-      {/* DESKTOP NAV */}
-      {isNonMobileScreens ? (
-        <FlexBetween gap="2rem">
+          <ClickAwayListener onClickAway={handleClickAway}>
+            <Box position="relative">
+              <IconButton onClick={handleNotificationsToggle}>
+                <Notifications sx={{ fontSize: "25px" }} />
+              </IconButton>
+              {isNotificationsOpen && (
+                <Paper
+                  elevation={3}
+                  style={{ zIndex: "20" }}
+                  sx={{
+                    position: "absolute",
+                    top: "100%",
+                    right: 0,
+                    width: "300px",
+                    mt: 1,
+                    p: 2,
+                    backgroundColor: neutralLight,
+                  }}
+                >
+                  <Typography variant="h6">Notifications</Typography>
+                  {/* Render your notifications here */}
+                  <Box mt={1}>
+                    <Typography>No new notifications</Typography>
+                  </Box>
+                </Paper>
+              )}
+            </Box>
+          </ClickAwayListener>
           <FormControl
             variant="standard"
             value={fullName}
@@ -99,7 +137,9 @@ const Navbar = () => {
                 backgroundColor: neutralLight,
                 width: "150px",
                 borderRadius: "0.25rem",
-                p: "0.25rem 1rem",
+                p: "0.25rem 0.5rem", // Reduced padding left to 0.5rem
+                display: "flex",
+                alignItems: "center",
                 "& .MuiSvgIcon-root": {
                   pr: "0.25rem",
                   width: "3rem",
@@ -107,15 +147,26 @@ const Navbar = () => {
                 "& .MuiSelect-select:focus": {
                   backgroundColor: neutralLight,
                 },
+                "& .MuiSelect-select": {
+                  display: "flex",
+                  alignItems: "center",
+                  p: "0.25rem 0.5rem", // Ensure padding matches here as well
+                },
               }}
               input={<InputBase />}
+              renderValue={(selected) => (
+                <div style={{ display: "flex", alignItems: "center"}}>
+                  <AccountCircleIcon style={{marginLeft : "-14px"}}/>
+                  <Typography style={{marginLeft : "-10px"}}>{selected}</Typography>
+                </div>
+              )}
             >
               <MenuItem
                 value={fullName}
                 onClick={() => navigate(`/profile/${userId}`)}
               >
                 <AccountCircleIcon style={{ marginRight: 8 }} />
-                <Typography>{fullName}</Typography>
+                <Typography>Profile</Typography>
               </MenuItem>
               <MenuItem
                 value="Messages"
@@ -238,11 +289,55 @@ const Navbar = () => {
                 }}
                 input={<InputBase />}
               >
-                <MenuItem value={fullName}>
+                <MenuItem
+                  value={fullName}
+                  onClick={() => navigate(`/profile/${userId}`)}
+                >
+                  <AccountCircleIcon style={{ marginRight: 8 }} />
                   <Typography>{fullName}</Typography>
                 </MenuItem>
+                <MenuItem
+                  value="Messages"
+                  onClick={() => navigate(`/messages/${userId}`)}
+                >
+                  <MessageIcon style={{ marginRight: 8 }} />
+                  <Typography>Messages</Typography>
+                </MenuItem>
+                <MenuItem
+                  value="Notifications"
+                  onClick={() => navigate(`/notifications/${userId}`)}
+                >
+                  <NotificationsIcon style={{ marginRight: 8 }} />
+                  <Typography>Notifications</Typography>
+                </MenuItem>
+                <MenuItem
+                  value="Settings"
+                  onClick={() => navigate(`/settings/${userId}`)}
+                >
+                  <SettingsIcon style={{ marginRight: 8 }} />
+                  <Typography>Settings</Typography>
+                </MenuItem>
+                <MenuItem onClick={() => dispatch(setMode())}>
+                  {theme.palette.mode === "dark" ? (
+                    <LightModeIcon style={{ marginRight: 8 }} />
+                  ) : (
+                    <DarkModeIcon style={{ marginRight: 8 }} />
+                  )}
+                  <Typography>
+                    {theme.palette.mode === "dark" ? "Light Mode" : "Dark Mode"}
+                  </Typography>
+                </MenuItem>
+
+                <MenuItem
+                  value="Help"
+                  onClick={() => navigate(`/help`)}
+                >
+                  <HelpOutlineIcon style={{ marginRight: 8 }} />
+                  <Typography>Help</Typography>
+                </MenuItem>
                 <MenuItem onClick={() => dispatch(setLogout())}>
-                  Log Out
+                  <LogoutIcon style={{ marginRight: 8 }} />
+                  <Typography>Log Out</Typography>
                 </MenuItem>
               </Select>
             </FormControl>

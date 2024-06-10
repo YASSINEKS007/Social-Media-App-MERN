@@ -7,11 +7,10 @@ import {
 import { Box, Divider, IconButton, Typography, useTheme } from "@mui/material";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setPost } from "../state/main";
-import WidgetWrapper from "../components/WidgetWrapper";
-import PropTypes from "prop-types";
 import FlexBetween from "../components/FlexBetween";
 import Friend from "../components/Friend";
+import WidgetWrapper from "../components/WidgetWrapper";
+import { setPost } from "../state/main";
 
 const PostWidget = ({
   postId,
@@ -114,16 +113,16 @@ const PostWidget = ({
   );
 };
 
-PostWidget.propTypes = {
-  postId: PropTypes.string.isRequired,
-  postUserId: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
-  location: PropTypes.string.isRequired,
-  picturePath: PropTypes.string.isRequired,
-  userPicturePath: PropTypes.string.isRequired,
-  likes: PropTypes.array.isRequired,
-  comments: PropTypes.array.isRequired,
-};
+// PostWidget.propTypes = {
+//   postId: PropTypes.string.isRequired,
+//   postUserId: PropTypes.string.isRequired,
+//   name: PropTypes.string.isRequired,
+//   description: PropTypes.string.isRequired,
+//   location: PropTypes.string.isRequired,
+//   picturePath: PropTypes.string.isRequired,
+//   userPicturePath: PropTypes.string.isRequired,
+//   likes: PropTypes.array.isRequired,
+//   comments: PropTypes.array.isRequired,
+// };
 
 export default PostWidget;

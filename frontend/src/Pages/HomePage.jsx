@@ -1,13 +1,18 @@
-import Navbar from "../components/NavBar";
 import { Box, useMediaQuery } from "@mui/material";
 import { useSelector } from "react-redux";
+import Navbar from "../components/NavBar";
+import AllPostsWidget from "../widgets/AllPostsWidget";
 import MyPostWidget from "../widgets/MyPostWidget";
 const HomePage = () => {
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
   const { picturePath } = useSelector((state) => state.user);
 
   return (
-    <Box display="flex" flexDirection="column" alignItems="center">
+    <Box
+      display="flex"
+      flexDirection="column"
+      alignItems="center"
+    >
       <Navbar />
       <Box
         width="80%"
@@ -23,6 +28,7 @@ const HomePage = () => {
           textAlign={isNonMobileScreens ? "left" : "center"}
         >
           <MyPostWidget picturePath={picturePath} />
+          <AllPostsWidget />
         </Box>
       </Box>
     </Box>

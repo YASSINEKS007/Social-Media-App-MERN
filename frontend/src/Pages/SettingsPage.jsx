@@ -1,6 +1,5 @@
 import { Box, useMediaQuery } from "@mui/material";
 import Navbar from "../components/NavBar";
-import Form from "../components/Form";
 
 function SettingsPage() {
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
@@ -24,7 +23,6 @@ function SettingsPage() {
           mt={isNonMobileScreens ? undefined : "2rem"}
           textAlign={isNonMobileScreens ? "left" : "center"}
         >
-          <Form />
         </Box>
       </Box>
     </Box>

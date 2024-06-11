@@ -19,7 +19,6 @@ const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
   const primaryDark = palette.primary.dark;
   const main = palette.neutral.main;
   const medium = palette.neutral.medium;
-  console.log(friends);
   const isFriend = friends.filter((friend) => friend._id === friendId);
   const backendHost = import.meta.env.VITE_BACKEND_HOST;
 
@@ -45,7 +44,6 @@ const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
         <Box
           onClick={() => {
             navigate(`/profile/${friendId}`);
-            navigate(0);
           }}
         >
           <Typography

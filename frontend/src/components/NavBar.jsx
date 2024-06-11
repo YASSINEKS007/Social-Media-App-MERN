@@ -1,40 +1,40 @@
-import { useState } from "react";
 import {
-  Box,
-  IconButton,
-  InputBase,
-  Typography,
-  Select,
-  MenuItem,
-  FormControl,
-  useTheme,
-  useMediaQuery,
-  ClickAwayListener,
-  Paper,
-  Grid,
-} from "@mui/material";
-import {
-  Search,
-  Message,
-  DarkMode,
-  LightMode,
-  Notifications,
-  Help,
-  Menu,
   Close,
+  DarkMode,
+  Help,
+  LightMode,
+  Menu,
+  Message,
+  Notifications,
+  Search,
 } from "@mui/icons-material";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import FlexBetween from "./FlexBetween";
-import { setLogout, setMode } from "../state/main";
-import SettingsIcon from "@mui/icons-material/Settings";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import DarkModeIcon from "@mui/icons-material/DarkMode";
+import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
+import LightModeIcon from "@mui/icons-material/LightMode";
+import LogoutIcon from "@mui/icons-material/Logout";
 import MessageIcon from "@mui/icons-material/Message";
 import NotificationsIcon from "@mui/icons-material/Notifications";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import LogoutIcon from "@mui/icons-material/Logout";
-import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
-import DarkModeIcon from "@mui/icons-material/DarkMode";
-import LightModeIcon from "@mui/icons-material/LightMode";
+import SettingsIcon from "@mui/icons-material/Settings";
+import {
+  Box,
+  ClickAwayListener,
+  FormControl,
+  IconButton,
+  InputBase,
+  MenuItem,
+  Paper,
+  Select,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { setLogout, setMode } from "../state/main";
+import FlexBetween from "./FlexBetween";
+import UserImage from "./UserImage";
 
 const Navbar = () => {
   const [isMobileMenuToggled, setIsMobileMenuToggled] = useState(false);
@@ -137,7 +137,7 @@ const Navbar = () => {
                 backgroundColor: neutralLight,
                 width: "150px",
                 borderRadius: "0.25rem",
-                p: "0.25rem 0.5rem", // Reduced padding left to 0.5rem
+                p: "0.25rem 0.5rem",
                 display: "flex",
                 alignItems: "center",
                 "& .MuiSvgIcon-root": {
@@ -150,14 +150,19 @@ const Navbar = () => {
                 "& .MuiSelect-select": {
                   display: "flex",
                   alignItems: "center",
-                  p: "0.25rem 0.5rem", // Ensure padding matches here as well
+                  p: "0.25rem 0.5rem",
                 },
               }}
               input={<InputBase />}
               renderValue={(selected) => (
-                <div style={{ display: "flex", alignItems: "center"}}>
-                  <AccountCircleIcon style={{marginLeft : "-14px"}}/>
-                  <Typography style={{marginLeft : "-10px"}}>{selected}</Typography>
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <UserImage
+                    image={user.picturePath}
+                    size="20px"
+                  />
+                  <Typography style={{ marginLeft: "10px" }}>
+                    {selected}
+                  </Typography>
                 </div>
               )}
             >
@@ -165,8 +170,11 @@ const Navbar = () => {
                 value={fullName}
                 onClick={() => navigate(`/profile/${userId}`)}
               >
-                <AccountCircleIcon style={{ marginRight: 8 }} />
-                <Typography>Profile</Typography>
+                <UserImage
+                  image={user.picturePath}
+                  size="20px"
+                />
+                <Typography style={{ marginLeft: "8px" }}>Profile</Typography>
               </MenuItem>
               <MenuItem
                 value="Messages"

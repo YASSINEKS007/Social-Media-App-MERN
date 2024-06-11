@@ -3,9 +3,18 @@ import {
   FavoriteBorderOutlined,
   FavoriteOutlined,
   ShareOutlined,
+  SendOutlined,
 } from "@mui/icons-material";
-import { Box, Divider, IconButton, Typography, useTheme } from "@mui/material";
-import { useState } from "react";
+import {
+  Box,
+  Divider,
+  IconButton,
+  InputAdornment,
+  TextField,
+  Typography,
+  useTheme,
+} from "@mui/material";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import FlexBetween from "../components/FlexBetween";
 import Friend from "../components/Friend";
@@ -24,16 +33,47 @@ const PostWidget = ({
   comments,
 }) => {
   const [isComments, setIsComments] = useState(false);
-  const dispatch = useDispatch();
+  const [allComments, setAllComments] = useState(comments);
   const token = useSelector((state) => state.token);
-  const loggedInUserId = useSelector((state) => state.user._id);
-  const isLiked = Boolean(likes[loggedInUserId]);
-  const likeCount = Object.keys(likes).length;
 
   const { palette } = useTheme();
   const main = palette.neutral.main;
   const primary = palette.primary.main;
+
+  const [likeCount, setLikeCount] = useState(0);
+  const loggedInUserId = useSelector((state) => state.user._id);
+  const dispatch = useDispatch();
+
+  const [newComment, setNewComment] = useState("");
   const backendHost = import.meta.env.VITE_BACKEND_HOST;
+
+  const post = useSelector((state) =>
+    state.posts.find((post) => post._id === postId)
+  );
+
+  const postComment = async () => {
+    try {
+      const response = await fetch(`${backendHost}/posts/${postId}/comment`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ userId: loggedInUserId, comment: newComment }),
+      });
+      const updatedPost = await response.json();
+      setAllComments(updatedPost.comments);
+      setNewComment("");
+    } catch (error) {
+      console.error("Error posting comment:", error);
+    }
+  };
+
+  const isLiked = post && post.likes && post.likes[loggedInUserId];
+
+  useEffect(() => {
+    setLikeCount(post ? Object.keys(post.likes).length : 0);
+  }, [post]);
 
   const patchLike = async () => {
     const response = await fetch(`${backendHost}/posts/${postId}/like`, {
@@ -98,7 +138,23 @@ const PostWidget = ({
       </FlexBetween>
       {isComments && (
         <Box mt="0.5rem">
-          {comments.map((comment, i) => (
+          <TextField
+            value={newComment}
+            onChange={(e) => setNewComment(e.target.value)}
+            label="Add a comment"
+            variant="outlined"
+            fullWidth
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton onClick={postComment}>
+                    <SendOutlined />
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+          />
+          {allComments.map((comment, i) => (
             <Box key={`${name}-${i}`}>
               <Divider />
               <Typography sx={{ color: main, m: "0.5rem 0", pl: "1rem" }}>
@@ -112,17 +168,5 @@ const PostWidget = ({
     </WidgetWrapper>
   );
 };
-
-// PostWidget.propTypes = {
-//   postId: PropTypes.string.isRequired,
-//   postUserId: PropTypes.string.isRequired,
-//   name: PropTypes.string.isRequired,
-//   description: PropTypes.string.isRequired,
-//   location: PropTypes.string.isRequired,
-//   picturePath: PropTypes.string.isRequired,
-//   userPicturePath: PropTypes.string.isRequired,
-//   likes: PropTypes.array.isRequired,
-//   comments: PropTypes.array.isRequired,
-// };
 
 export default PostWidget;

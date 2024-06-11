@@ -1,17 +1,16 @@
 import {
-  ManageAccountsOutlined,
   EditOutlined,
   LocationOnOutlined,
+  ManageAccountsOutlined,
   WorkOutlineOutlined,
 } from "@mui/icons-material";
-import { Box, Typography, Divider, useTheme } from "@mui/material";
-import FlexBetween from "../components/FlexBetween";
-import WidgetWrapper from "../components/WidgetWrapper";
-import { useSelector } from "react-redux";
+import { Box, Divider, Typography, useTheme } from "@mui/material";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import PropTypes from "prop-types";
+import FlexBetween from "../components/FlexBetween";
 import UserImage from "../components/UserImage";
+import WidgetWrapper from "../components/WidgetWrapper";
 
 const UserWidget = ({ userId, picturePath }) => {
   const [user, setUser] = useState(null);
@@ -163,7 +162,7 @@ const UserWidget = ({ userId, picturePath }) => {
               >
                 Twitter
               </Typography>
-              <Typography color={medium}>Social Network</Typography>
+              <Typography color={medium}>Twitter Username</Typography>
             </Box>
           </FlexBetween>
           <EditOutlined sx={{ color: main }} />
@@ -182,7 +181,7 @@ const UserWidget = ({ userId, picturePath }) => {
               >
                 Linkedin
               </Typography>
-              <Typography color={medium}>Network Platform</Typography>
+              <Typography color={medium}>Linkedin Username</Typography>
             </Box>
           </FlexBetween>
           <EditOutlined sx={{ color: main }} />
@@ -192,9 +191,9 @@ const UserWidget = ({ userId, picturePath }) => {
   );
 };
 
-UserWidget.propTypes = {
-  userId: PropTypes.string.isRequired,
-  picturePath: PropTypes.string.isRequired,
-};
+// UserWidget.propTypes = {
+//   userId: PropTypes.string.isRequired,
+//   picturePath: PropTypes.string.isRequired,
+// };
 
 export default UserWidget;

@@ -1,18 +1,41 @@
 import { Box, useMediaQuery } from "@mui/material";
+import { useParams } from "react-router-dom";
 import UserWidget from "../widgets/UserWidget";
+import { useEffect, useState } from "react";
+import NavBar from "../components/NavBar";
 import { useSelector } from "react-redux";
-import Navbar from "../components/NavBar";
 
 function ProfilePage() {
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
-  const { _id, picturePath } = useSelector((state) => state.user);
+  const { userId } = useParams();
+  const [data, setData] = useState(null);
+  const backendHost = import.meta.env.VITE_BACKEND_HOST;
+  const token = useSelector((state) => state.token);
+
+  useEffect(() => {
+    const fetchProfileData = async () => {
+      try {
+        const response = await fetch(`${backendHost}/users/${userId}`,{
+          method: "GET",
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        const jsonData = await response.json();
+        setData(jsonData);
+        console.log(jsonData);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    fetchProfileData();
+  }, [userId]); 
+
   return (
     <Box
       display="flex"
       flexDirection="column"
       alignItems="center"
     >
-      <Navbar />
+      <NavBar />
       <Box
         width="80%"
         padding="2rem 6%"
@@ -26,10 +49,12 @@ function ProfilePage() {
           mt={isNonMobileScreens ? undefined : "2rem"}
           textAlign={isNonMobileScreens ? "left" : "center"}
         >
-          <UserWidget
-            userId={_id}
-            picturePath={picturePath}
-          />{" "}
+          {data && (
+            <UserWidget
+              userId={userId}
+              picturePath={data.picturePath}
+            />
+          )}
         </Box>
       </Box>
     </Box>

@@ -19,6 +19,7 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import {
   Box,
   ClickAwayListener,
+  Divider,
   FormControl,
   IconButton,
   InputBase,
@@ -29,7 +30,7 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import { useState } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { setLogout, setMode } from "../state/main";
@@ -51,17 +52,22 @@ const Navbar = () => {
   const background = theme.palette.background.default;
   const primaryLight = theme.palette.primary.light;
   const alt = theme.palette.background.alt;
+  const [notificationCount, setNotificationCount] = useState(0); 
 
   const fullName = `${user.firstName} ${user.lastName}`;
-
-  const handleNotificationsToggle = () => {
-    setIsNotificationsOpen(!isNotificationsOpen);
-  };
+  const notifications = ["notification 1", "notification 2"]; 
 
   const handleClickAway = () => {
     setIsNotificationsOpen(false);
   };
 
+  const handleNotificationsToggle = () => {
+    setIsNotificationsOpen(!isNotificationsOpen);
+    // Reset notification count when opening notifications panel
+    if (!isNotificationsOpen) {
+      setNotificationCount(0);
+    }
+  };
   return (
     <FlexBetween
       padding="0.5rem 2%"
@@ -103,6 +109,22 @@ const Navbar = () => {
             <Box position="relative">
               <IconButton onClick={handleNotificationsToggle}>
                 <Notifications sx={{ fontSize: "25px" }} />
+                {notificationCount > 0 && (
+                  <span
+                    style={{
+                      position: "absolute",
+                      top: -5,
+                      right: -5,
+                      backgroundColor: "red",
+                      borderRadius: "50%",
+                      padding: "5px",
+                      color: "white",
+                      fontSize: "12px",
+                    }}
+                  >
+                    {notificationCount}
+                  </span>
+                )}
               </IconButton>
               {isNotificationsOpen && (
                 <Paper
@@ -115,14 +137,23 @@ const Navbar = () => {
                     width: "300px",
                     mt: 1,
                     p: 2,
-                    backgroundColor: neutralLight,
+                    backgroundColor: "#f0f0f0",
                   }}
                 >
                   <Typography variant="h6">Notifications</Typography>
-                  {/* Render your notifications here */}
-                  <Box mt={1}>
-                    <Typography>No new notifications</Typography>
-                  </Box>
+                  {notifications.map((notification, index) => (
+                    <React.Fragment key={index}>
+                      <Box mt={1}>
+                        <Typography>{notification}</Typography>
+                      </Box>
+                      {index !== notifications.length - 1 && <Divider />}
+                    </React.Fragment>
+                  ))}
+                  {notifications.length === 0 && (
+                    <Box mt={1}>
+                      <Typography>No new notifications</Typography>
+                    </Box>
+                  )}
                 </Paper>
               )}
             </Box>

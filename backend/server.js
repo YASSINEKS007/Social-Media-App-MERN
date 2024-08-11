@@ -89,8 +89,8 @@ mongoose
   .then(() => {
     // User.insertMany(users);
     // Post.insertMany(posts);
-    app.listen(PORT, () => console.log(`Server listening in port : ${chalk.blue(PORT)}`)); // Colorize PORT using chalk
+    app.listen(PORT, () => console.log(`Server listening in port : ${chalk.blue(PORT)}`)); 
   })
   .catch((error) => {
-    console.log(`${chalk.red(error)} did not connect`); // Colorize error using chalk
+    console.log(`${chalk.red(error)} did not connect`); 
   });

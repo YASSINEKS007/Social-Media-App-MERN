@@ -1,15 +1,14 @@
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
-import LoginPage from "./Pages/LoginPage";
-import HomePage from "./Pages/HomePage";
-import ProfilePage from "./Pages/ProfilePage";
-import { useSelector } from "react-redux";
-import { useMemo } from "react";
-import { themeSettings } from "./theme";
 import { CssBaseline } from "@mui/material";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
-import SettingsPage from "./Pages/SettingsPage";
+import { useMemo } from "react";
+import { useSelector } from "react-redux";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import HomePage from "./Pages/HomePage";
+import LoginPage from "./Pages/LoginPage";
 import MessagesPage from "./Pages/MessagesPage";
-import NotificationsPage from "./Pages/NotificationsPage";
+import ProfilePage from "./Pages/ProfilePage";
+import SettingsPage from "./Pages/SettingsPage";
+import { themeSettings } from "./theme";
 
 function App() {
   const mode = useSelector((state) => state.mode);
@@ -44,11 +43,6 @@ function App() {
           <Route
             path="/messages/:userId"
             element={isAuthorized ? <MessagesPage /> : <Navigate to="/" />}
-          />
-
-          <Route
-            path="/notifications/:userId"
-            element={isAuthorized ? <NotificationsPage /> : <Navigate to="/" />}
           />
 
           <Route

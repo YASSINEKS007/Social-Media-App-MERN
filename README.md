@@ -36,7 +36,7 @@ This is a modern social media web application created using the MERN stack (Mong
 1. **Clone the repository**
 
     ```bash
-    git clone https://github.com/your-username/social-media-app.git
+    git clone https://github.com/YASSINEKS007/Social-Media-App-MERN.git
     cd social-media-app
     ```
 
@@ -59,7 +59,8 @@ This is a modern social media web application created using the MERN stack (Mong
     Create a `.env` file in the `backend` directory with the following variables:
 
     ```env
-    MONGO_URI=your_mongodb_connection_string
+    PORT=backend_server_port
+    MONGO_URI=your_mongodb_connection_url
     JWT_SECRET=your_jwt_secret
     ```
 
@@ -74,10 +75,11 @@ This is a modern social media web application created using the MERN stack (Mong
     - Start the frontend development server:
         ```bash
         cd ../frontend
-        npm start
+        npm run dev
         ```
 
-    The application will be available at `http://localhost:3000`.
+    The frontend will be available at `http://localhost:3000`.
+    The frontend will be available at `http://localhost:8000`. (if you choose PORT=8000) 
 
 ## Usage
 
@@ -87,19 +89,25 @@ This is a modern social media web application created using the MERN stack (Mong
 
 ## Screenshots
 
-![Home Page](screenshots/home.png)
-*Home Page*
+![Login Page](imgs/login-page.png)
+*Login Page*
 
-![Profile Page](screenshots/profile.png)
+![SignUp Page](imgs/signup-page.png)
+*Sign Up Page*
+
+![Profile DARK Page](imgs/profile-dark.png)
+*Main Page Dark Mode*
+
+![Profile LIGHT Page](imgs/profile-light.png)
+*Main Page Dark Mode*
+
+![Profile LIGHT Page](imgs/profile.png)
 *Profile Page*
 
 ## Contributing
 
 Contributions are welcome! Please fork the repository and create a pull request with your changes. Make sure to follow the project's coding standards and include appropriate tests.
 
-## License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
 ## Acknowledgements
 
@@ -109,10 +117,3 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 - [MongoDB](https://www.mongodb.com/)
 - [JWT](https://jwt.io/)
 - [Socket.io](https://socket.io/)
-
-## Contact
-
-Feel free to reach out with any questions or feedback!
-
-- Email: yassinekh007007@gmail.com
-- GitHub: YASSINEKS007(https://github.com/YASSINEKS007)
